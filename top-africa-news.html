@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Top Africa News — Actualités Sportives Africaines</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#002D72;
+  --blue2:#001840;
+  --blue3:#0050C8;
+  --accent:#4D9FFF;
+  --gold:#F0A500;
+  --live:#22C55E;
+  --dark:#010D20;
+  --white:#FFFFFF;
+  --gray:#F4F6FA;
+  --text:#1A1A2E;
+  --muted:#6B7280;
+  --border:#E2E8F0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Cairo',sans-serif;background:#F4F6FA;color:var(--text);min-height:100vh;}
+body.rtl{direction:rtl;}
+body.ltr{direction:ltr;}
+
+/* ── NAVBAR ── */
+.nav{background:var(--blue);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.3);}
+.nav-logo{color:#fff;font-size:22px;font-weight:900;font-family:'Oswald',sans-serif;letter-spacing:1px;display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo .globe{font-size:26px;}
+.nav-logo span.brand{color:#fff;}
+.nav-logo span.accent{color:var(--gold);}
+.nav-center{display:flex;gap:1.5rem;}
+.nav-center a{color:rgba(255,255,255,0.8);font-size:14px;font-weight:600;text-decoration:none;padding:4px 0;border-bottom:2px solid transparent;transition:all 0.2s;}
+.nav-center a:hover,.nav-center a.active{color:#fff;border-bottom-color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.lang-sw{display:flex;border:1.5px solid rgba(255,255,255,0.35);border-radius:25px;overflow:hidden;}
+.lang-btn{padding:5px 14px;font-size:13px;font-weight:700;cursor:pointer;color:rgba(255,255,255,0.65);background:transparent;border:none;font-family:'Cairo',sans-serif;transition:all 0.2s;}
+.lang-btn.active{background:#fff;color:var(--blue);}
+.search-box{display:flex;align-items:center;background:rgba(255,255,255,0.12);border-radius:25px;padding:5px 14px;gap:8px;}
+.search-box input{background:transparent;border:none;outline:none;color:#fff;font-size:13px;font-family:'Cairo',sans-serif;width:130px;}
+.search-box input::placeholder{color:rgba(255,255,255,0.5);}
+.search-icon{color:rgba(255,255,255,0.6);font-size:14px;}
+
+/* ── TICKER ── */
+.ticker{background:var(--dark);color:#fff;font-size:13px;padding:7px 0;overflow:hidden;white-space:nowrap;display:flex;align-items:center;}
+.ticker-label{background:var(--gold);color:var(--dark);font-size:11px;font-weight:900;padding:3px 12px;margin-right:16px;flex-shrink:0;font-family:'Oswald',sans-serif;letter-spacing:1px;}
+.ticker-track{display:flex;gap:0;animation:tickerScroll 35s linear infinite;}
+.ticker-track:hover{animation-play-state:paused;}
+.ticker-item{padding:0 2rem;border-right:1px solid rgba(255,255,255,0.15);white-space:nowrap;}
+.ticker-item .dot{color:var(--gold);margin-right:6px;}
+@keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── SCORES BAR ── */
+.scores-bar{background:var(--blue2);padding:0.8rem 2rem;display:flex;gap:1.5rem;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--blue3);}
+.scores-bar::-webkit-scrollbar{display:none;}
+.score-card{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:fit-content;padding:0 1rem;border-right:1px solid rgba(255,255,255,0.1);}
+.score-card:last-child{border-right:none;}
+.sc-league{font-size:9px;font-weight:700;color:var(--accent);letter-spacing:1px;text-transform:uppercase;}
+.sc-match{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px;}
+.sc-res{background:var(--blue3);border:1px solid var(--accent);color:#fff;font-size:12px;font-weight:900;padding:2px 8px;border-radius:4px;font-family:'Oswald',sans-serif;}
+.sc-live{color:var(--live);font-size:10px;font-weight:700;animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* ── MAIN NAV TABS ── */
+.main-tabs{background:#fff;display:flex;align-items:center;gap:0;border-bottom:3px solid var(--blue);padding:0 2rem;overflow-x:auto;scrollbar-width:none;}
+.main-tabs::-webkit-scrollbar{display:none;}
+.mtab{padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-3px;white-space:nowrap;transition:all 0.2s;font-family:'Cairo',sans-serif;}
+.mtab:hover{color:var(--blue);}
+.mtab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* ── LAYOUT ── */
+.page-content{display:none;}
+.page-content.active{display:block;}
+.container{max-width:1200px;margin:0 auto;padding:1.5rem 2rem;}
+
+/* ── HERO GRID ── */
+.hero-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+.hero-main{background:var(--blue2);border-radius:14px;overflow:hidden;cursor:pointer;position:relative;}
+.hero-img{width:100%;height:360px;object-fit:cover;display:block;}
+.hero-img-fake{width:100%;height:360px;background:linear-gradient(160deg,#001840,#002D72,#0050C8);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.hero-img-fake .icon{font-size:64px;opacity:0.4;}
+.hero-img-fake .sub{font-size:13px;color:rgba(255,255,255,0.4);letter-spacing:2px;font-family:'Oswald',sans-serif;}
+.hero-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,10,40,0.97));padding:2.5rem 1.5rem 1.5rem;}
+.hero-tag{background:var(--gold);color:var(--dark);font-size:11px;font-weight:900;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px;font-family:'Oswald',sans-serif;letter-spacing:1px;}
+.hero-title{color:#fff;font-size:24px;font-weight:900;line-height:1.35;margin-bottom:8px;}
+.hero-meta{color:rgba(255,255,255,0.5);font-size:12px;display:flex;align-items:center;gap:8px;}
+.hero-meta span{display:flex;align-items:center;gap:4px;}
+.sidebar-list{display:flex;flex-direction:column;gap:0;}
+.sidebar-item{background:#fff;border-radius:10px;padding:1rem;cursor:pointer;display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);margin-bottom:10px;transition:all 0.2s;}
+.sidebar-item:hover{border-color:var(--accent);transform:translateX(-2px);}
+.si-num{color:var(--blue3);font-size:20px;font-weight:900;min-width:24px;font-family:'Oswald',sans-serif;line-height:1;}
+.si-tag{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.si-title{font-size:13px;font-weight:700;line-height:1.4;color:var(--text);}
+.si-time{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* ── SECTION HEADER ── */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--blue);}
+.sec-title{font-size:18px;font-weight:900;color:var(--blue);font-family:'Oswald',sans-serif;letter-spacing:1px;display:flex;align-items:center;gap:8px;}
+.sec-more{font-size:13px;color:var(--blue3);font-weight:600;cursor:pointer;text-decoration:none;}
+
+/* ── CARDS GRID ── */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+.news-card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:all 0.2s;}
+.news-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,45,114,0.12);}
+.nc-img{width:100%;height:160px;background:linear-gradient(135deg,var(--blue2),var(--blue3));display:flex;align-items:center;justify-content:center;font-size:40px;opacity:0.8;}
+.nc-body{padding:1rem;}
+.nc-sport{font-size:10px;font-weight:700;color:var(--blue3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.nc-title{font-size:14px;font-weight:700;line-height:1.4;margin-bottom:6px;color:var(--text);}
+.nc-excerpt{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
+.nc-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;}
+.nc-author{color:var(--blue);font-weight:700;}
+.nc-time{color:var(--muted);}
+
+/* ── REELS SECTION ── */
+.reels-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.reel-card{background:var(--blue2);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.2s;position:relative;}
+.reel-card:hover{transform:scale(1.03);}
+.reel-thumb{width:100%;height:200px;display:flex;align-items:center;justify-content:center;position:relative;}
+.reel-thumb-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:50px;opacity:0.25;}
+.play-btn{width:48px;height:48px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+.play-btn::after{content:'';border-left:16px solid var(--blue);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px;}
+.reel-badge{position:absolute;top:8px;right:8px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;}
+.badge-live{background:rgba(220,38,38,0.9);color:#fff;}
+.badge-reel{background:rgba(0,80,200,0.85);color:#fff;}
+.reel-views{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;font-size:10px;padding:2px 7px;border-radius:8px;}
+.reel-info{padding:10px 12px 12px;}
+.reel-title{font-size:12px;font-weight:700;color:#ddeeff;line-height:1.4;margin-bottom:4px;}
+.reel-time{font-size:10px;color:#7db8ff;}
+
+/* ── VIDEOS SECTION ── */
+.videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+.video-card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:all 0.2s;}
+.video-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,45,114,0.12);}
+.vc-thumb{width:100%;height:160px;background:linear-gradient(135deg,var(--blue2),var(--blue3));display:flex;align-items:center;justify-content:center;position:relative;}
+.vc-icon{font-size:42px;opacity:0.3;}
+.vplay-btn{width:52px;height:52px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;}
+.vplay-btn::after{content:'';border-left:17px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px;}
+.vc-dur{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.75);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;}
+.vc-body{padding:1rem;}
+.vc-title{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:6px;color:var(--text);}
+.vc-meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.vc-views{display:flex;align-items:center;gap:4px;}
+
+/* ── UPLOAD SECTION ── */
+.upload-section{background:linear-gradient(135deg,var(--blue2),var(--blue));border-radius:16px;padding:2.5rem;text-align:center;color:#fff;margin-bottom:2rem;}
+.upload-section h2{font-size:26px;font-weight:900;font-family:'Oswald',sans-serif;letter-spacing:1px;margin-bottom:8px;}
+.upload-section p{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:2rem;}
+.upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+.upload-box{background:rgba(255,255,255,0.08);border:2px dashed rgba(255,255,255,0.25);border-radius:14px;padding:2rem 1.5rem;cursor:pointer;transition:all 0.2s;}
+.upload-box:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.5);}
+.ub-icon{font-size:36px;margin-bottom:10px;}
+.ub-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.ub-sub{font-size:12px;color:rgba(255,255,255,0.55);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;text-align:left;margin-bottom:1.5rem;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group label{font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:10px 14px;color:#fff;font-size:14px;font-family:'Cairo',sans-serif;outline:none;transition:all 0.2s;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.4);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);background:rgba(255,255,255,0.15);}
+.form-group select option{background:var(--blue2);color:#fff;}
+.form-group.full{grid-column:1/-1;}
+.form-group textarea{height:90px;resize:vertical;}
+.btn-submit{background:var(--gold);color:var(--dark);font-size:15px;font-weight:900;padding:12px 40px;border:none;border-radius:30px;cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s;letter-spacing:0.5px;}
+.btn-submit:hover{background:#FFB800;transform:scale(1.04);}
+
+/* ── CONTACT ── */
+.contact-section{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.contact-info{background:#fff;border-radius:14px;padding:2rem;border:1px solid var(--border);}
+.contact-info h3{font-size:18px;font-weight:900;color:var(--blue);font-family:'Oswald',sans-serif;margin-bottom:1rem;}
+.contact-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border);}
+.contact-item:last-child{border-bottom:none;margin-bottom:0;}
+.ci-icon{width:40px;height:40px;background:#EBF4FF;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ci-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;}
+.ci-val{font-size:14px;font-weight:700;color:var(--text);}
+.contact-form{background:var(--blue2);border-radius:14px;padding:2rem;}
+.contact-form h3{font-size:18px;font-weight:900;color:#fff;font-family:'Oswald',sans-serif;margin-bottom:1.5rem;}
+.cf-group{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem;}
+.cf-group label{font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);}
+.cf-group input,.cf-group textarea,.cf-group select{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 14px;color:#fff;font-size:14px;font-family:'Cairo',sans-serif;outline:none;transition:border-color 0.2s;}
+.cf-group input::placeholder,.cf-group textarea::placeholder{color:rgba(255,255,255,0.4);}
+.cf-group input:focus,.cf-group textarea:focus{border-color:var(--accent);}
+.cf-group textarea{height:100px;resize:vertical;}
+.cf-group select option{background:var(--blue2);}
+.btn-send{background:var(--gold);color:var(--dark);font-size:15px;font-weight:900;padding:11px 36px;border:none;border-radius:30px;cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s;width:100%;margin-top:0.5rem;}
+.btn-send:hover{background:#FFB800;}
+
+/* ── LOGIN MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,10,30,0.85);z-index:9999;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:420px;overflow:hidden;}
+.modal-header{background:linear-gradient(135deg,var(--blue2),var(--blue));padding:2rem;text-align:center;}
+.modal-logo{color:#fff;font-size:20px;font-weight:900;font-family:'Oswald',sans-serif;margin-bottom:4px;}
+.modal-subtitle{color:rgba(255,255,255,0.6);font-size:13px;}
+.modal-tabs{display:flex;border-bottom:1px solid var(--border);}
+.modal-tab{flex:1;padding:14px;text-align:center;font-size:14px;font-weight:700;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;transition:all 0.2s;}
+.modal-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.modal-body{padding:1.5rem;}
+.modal-form{display:none;}
+.modal-form.active{display:block;}
+.mf-group{margin-bottom:1rem;}
+.mf-group label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.mf-group input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:'Cairo',sans-serif;outline:none;transition:border-color 0.2s;}
+.mf-group input:focus{border-color:var(--blue3);}
+.btn-modal{background:var(--blue);color:#fff;font-size:15px;font-weight:700;padding:12px;border:none;border-radius:10px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-top:0.5rem;transition:all 0.2s;}
+.btn-modal:hover{background:var(--blue3);}
+.modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:rgba(255,255,255,0.25);}
+.modal-header{position:relative;}
+.divider{text-align:center;color:var(--muted);font-size:12px;margin:1rem 0;display:flex;align-items:center;gap:10px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.social-btns{display:flex;gap:10px;}
+.social-btn{flex:1;padding:10px;border:1.5px solid var(--border);border-radius:9px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;transition:background 0.2s;}
+.social-btn:hover{background:var(--gray);}
+
+/* ── FOOTER ── */
+.footer{background:var(--dark);color:rgba(255,255,255,0.6);padding:2.5rem 2rem 1.5rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;max-width:1200px;margin:0 auto 2rem;}
+.footer-brand .logo{color:#fff;font-size:20px;font-weight:900;font-family:'Oswald',sans-serif;margin-bottom:10px;}
+.footer-brand p{font-size:13px;line-height:1.7;}
+.footer-col h4{color:#fff;font-size:14px;font-weight:700;margin-bottom:1rem;font-family:'Oswald',sans-serif;letter-spacing:1px;}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.55);text-decoration:none;margin-bottom:6px;cursor:pointer;transition:color 0.2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;font-size:12px;}
+.footer-bottom a{color:var(--accent);text-decoration:none;}
+.social-links{display:flex;gap:12px;}
+.soc-btn{width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:background 0.2s;}
+.soc-btn:hover{background:var(--blue3);}
+
+/* ── SUCCESS TOAST ── */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--live);color:#fff;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:700;z-index:9999;display:none;font-family:'Cairo',sans-serif;box-shadow:0 8px 30px rgba(0,0,0,0.3);}
+.toast.show{display:block;animation:fadeInUp 0.3s ease;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;}
+  .cards-grid{grid-template-columns:1fr 1fr;}
+  .reels-grid{grid-template-columns:1fr 1fr;}
+  .videos-grid{grid-template-columns:1fr 1fr;}
+  .contact-section{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .nav-center{display:none;}
+  .upload-grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .cards-grid,.reels-grid,.videos-grid{grid-template-columns:1fr;}
+  .nav{padding:0 1rem;}
+  .container{padding:1rem;}
+  .hero-title{font-size:18px;}
+}
+</style>
+</head>
+<body class="ltr">
+
+<!-- MODAL LOGIN/REGISTER -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-logo">🌍 Top Africa <span style="color:var(--gold)">News</span></div>
+      <div class="modal-subtitle" id="modal-sub">Rejoignez la communauté sportive africaine</div>
+    </div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" onclick="switchAuth('login')" id="tab-login">Connexion</div>
+      <div class="modal-tab" onclick="switchAuth('register')" id="tab-reg">Inscription</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-form active" id="form-login">
+        <div class="mf-group"><label id="lbl-email">Email</label><input type="email" id="pl-email" placeholder="votre@email.com"/></div>
+        <div class="mf-group"><label id="lbl-pass">Mot de passe</label><input type="password" id="pl-pass" placeholder="••••••••"/></div>
+        <button class="btn-modal" onclick="doLogin()" id="btn-login-lbl">Se connecter</button>
+        <div class="divider"><span id="divider-or">ou continuer avec</span></div>
+        <div class="social-btns">
+          <button class="social-btn">🌐 Google</button>
+          <button class="social-btn">📘 Facebook</button>
+        </div>
+      </div>
+      <div class="modal-form" id="form-register">
+        <div class="mf-group"><label id="lbl-name">Nom complet</label><input type="text" id="pr-name" placeholder="Votre nom"/></div>
+        <div class="mf-group"><label id="lbl-email2">Email</label><input type="email" id="pr-email" placeholder="votre@email.com"/></div>
+        <div class="mf-group"><label id="lbl-pass2">Mot de passe</label><input type="password" id="pr-pass" placeholder="Minimum 8 caractères"/></div>
+        <button class="btn-modal" onclick="doRegister()" id="btn-reg-lbl">Créer mon compte</button>
+        <div class="divider"><span id="divider-or2">ou continuer avec</span></div>
+        <div class="social-btns">
+          <button class="social-btn">🌐 Google</button>
+          <button class="social-btn">📘 Facebook</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a class="nav-logo" href="#"><span class="globe">🌍</span><span class="brand">Top Africa </span><span class="accent">News</span></a>
+  <div class="nav-center">
+    <a class="active" onclick="showPage('news',this)" id="na-news">Actualités</a>
+    <a onclick="showPage('reels',this)" id="na-reels">Reels</a>
+    <a onclick="showPage('videos',this)" id="na-videos">Vidéos</a>
+    <a onclick="showPage('upload',this)" id="na-upload">Publier</a>
+    <a onclick="showPage('contact',this)" id="na-contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Rechercher..."/>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('ar')">عر</button>
+    </div>
+    <button style="background:var(--gold);color:var(--dark);border:none;border-radius:25px;padding:7px 18px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Cairo',sans-serif;" onclick="openModal()" id="btn-auth">Connexion</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label" id="ticker-label">EN DIRECT</div>
+  <div class="ticker-track" id="ticker-track">
+    <span class="ticker-item"><span class="dot">⚽</span><span id="tk1">Maroc 2–1 Sénégal · Qualifications CAN 2025</span></span>
+    <span class="ticker-item"><span class="dot">🏆</span><span id="tk2">Osimhen finaliste prix CAF du meilleur joueur</span></span>
+    <span class="ticker-item"><span class="dot">🏃</span><span id="tk3">Kipchoge pulvérise le record du monde du marathon à Berlin</span></span>
+    <span class="ticker-item"><span class="dot">🏉</span><span id="tk4">Afrique du Sud conserve le titre mondial de rugby 32–12</span></span>
+    <span class="ticker-item"><span class="dot">🥊</span><span id="tk5">Oumiha challenge le champion WBA à Paris</span></span>
+    <span class="ticker-item"><span class="dot">⚽</span><span id="tk1b">Maroc 2–1 Sénégal · Qualifications CAN 2025</span></span>
+    <span class="ticker-item"><span class="dot">🏆</span><span id="tk2b">Osimhen finaliste prix CAF du meilleur joueur</span></span>
+    <span class="ticker-item"><span class="dot">🏃</span><span id="tk3b">Kipchoge pulvérise le record du monde du marathon à Berlin</span></span>
+    <span class="ticker-item"><span class="dot">🏉</span><span id="tk4b">Afrique du Sud conserve le titre mondial de rugby 32–12</span></span>
+    <span class="ticker-item"><span class="dot">🥊</span><span id="tk5b">Oumiha challenge le champion WBA à Paris</span></span>
+  </div>
+</div>
+
+<!-- SCORES BAR -->
+<div class="scores-bar" id="scores-bar">
+  <div class="score-card"><div class="sc-league" id="sc1l">CAN QUAL.</div><div class="sc-match"><span id="sc1t1">Maroc</span> <span class="sc-res">2–1</span> <span id="sc1t2">Sénégal</span> <span class="sc-live" id="sc1live">EN DIRECT 74'</span></div></div>
+  <div class="score-card"><div class="sc-league" id="sc2l">LDC CAF</div><div class="sc-match"><span id="sc2t1">Al Ahly</span> <span class="sc-res">3–0</span> <span id="sc2t2">Wydad</span></div></div>
+  <div class="score-card"><div class="sc-league" id="sc3l">CAN QUAL.</div><div class="sc-match"><span id="sc3t1">Ghana</span> <span class="sc-res">1–1</span> <span id="sc3t2">Côte d'Ivoire</span></div></div>
+  <div class="score-card"><div class="sc-league" id="sc4l">PREMIER LEAGUE</div><div class="sc-match"><span id="sc4t1">Arsenal</span> <span class="sc-res">2–0</span> <span id="sc4t2">Chelsea</span></div></div>
+  <div class="score-card"><div class="sc-league" id="sc5l">LIGUE DES NATIONS</div><div class="sc-match"><span id="sc5t1">Nigeria</span> <span class="sc-res">1–0</span> <span id="sc5t2">Cameroun</span></div></div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs">
+  <div class="mtab active" onclick="showPage('news',this)" id="mt-news">📰 Actualités</div>
+  <div class="mtab" onclick="showPage('reels',this)" id="mt-reels">🎬 Reels</div>
+  <div class="mtab" onclick="showPage('videos',this)" id="mt-videos">📺 Vidéos</div>
+  <div class="mtab" onclick="showPage('upload',this)" id="mt-upload">📤 Publier</div>
+  <div class="mtab" onclick="showPage('contact',this)" id="mt-contact">✉️ Contact</div>
+</div>
+
+<!-- ══ PAGE: ACTUALITES ══ -->
+<div class="page-content active" id="page-news">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="hero-img-fake">
+          <span class="icon">🌍⚽</span>
+          <span class="sub" id="hero-sub-txt">QUALIFICATION CAN 2025</span>
+        </div>
+        <div class="hero-overlay">
+          <div class="hero-tag" id="hero-tag">⚽ CAN 2025</div>
+          <div class="hero-title" id="hero-title">Le Maroc renverse le Sénégal dans une fin de match époustouflante et prend la tête du Groupe C</div>
+          <div class="hero-meta"><span id="hero-meta-auth">✍️ Youssef El Amrani</span> <span>·</span> <span id="hero-meta-time">Il y a 12 min</span> <span>·</span> <span>📍 Marrakech</span></div>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebar-item"><div class="si-num">1</div><div><div class="si-tag" id="si1t">ATHLÉTISME</div><div class="si-title" id="si1">Kipchoge pulvérise son record du monde du marathon à Berlin</div><div class="si-time" id="si1m">Il y a 1h</div></div></div>
+        <div class="sidebar-item"><div class="si-num">2</div><div><div class="si-tag" id="si2t">FOOTBALL</div><div class="si-title" id="si2">Osimhen nommé finaliste du prix CAF du meilleur joueur africain</div><div class="si-time" id="si2m">Il y a 2h</div></div></div>
+        <div class="sidebar-item"><div class="si-num">3</div><div><div class="si-tag" id="si3t">RUGBY</div><div class="si-title" id="si3">L'Afrique du Sud conserve sa couronne mondiale 32–12</div><div class="si-time" id="si3m">Il y a 4h</div></div></div>
+        <div class="sidebar-item"><div class="si-num">4</div><div><div class="si-tag" id="si4t">BOXE</div><div class="si-title" id="si4">Kamaru Usman annonce son retour à l'UFC à Lagos</div><div class="si-time" id="si4m">Il y a 5h</div></div></div>
+      </div>
+    </div>
+    <div class="sec-header"><div class="sec-title">📰 <span id="lbl-latest">Dernières Actualités</span></div><a class="sec-more" id="lbl-more">Voir tout →</a></div>
+    <div class="cards-grid">
+      <div class="news-card"><div class="nc-img">⚽</div><div class="nc-body"><div class="nc-sport" id="nc1s">⚽ FOOTBALL</div><div class="nc-title" id="nc1t">Al Ahly remporte la LDC africaine avec une victoire 3–0 écrasante sur Wydad</div><div class="nc-excerpt" id="nc1e">Le club égyptien réalise une masterclass au Caire et décroche son 11e titre continental avec brio.</div><div class="nc-footer"><span class="nc-author">Ahmed Hassan</span><span class="nc-time" id="nc1ti">Il y a 30 min</span></div></div></div>
+      <div class="news-card"><div class="nc-img">🏃</div><div class="nc-body"><div class="nc-sport" id="nc2s">🏃 ATHLÉTISME</div><div class="nc-title" id="nc2t">Faith Kipyegon bat le record du monde du 1500m à Nairobi</div><div class="nc-excerpt" id="nc2e">La championne kényane chronomètre 3:49.04 devant un public en délire pour améliorer sa propre marque.</div><div class="nc-footer"><span class="nc-author">Grace Wanjiru</span><span class="nc-time" id="nc2ti">Il y a 1h</span></div></div></div>
+      <div class="news-card"><div class="nc-img">🏀</div><div class="nc-body"><div class="nc-sport" id="nc3s">🏀 BASKET</div><div class="nc-title" id="nc3t">Le Nigeria crée l'exploit face aux USA aux qualifications olympiques</div><div class="nc-excerpt" id="nc3e">Giannis mène le Nigeria à une victoire historique qui choque le monde entier du basketball.</div><div class="nc-footer"><span class="nc-author">Emeka Obi</span><span class="nc-time" id="nc3ti">Il y a 2h</span></div></div></div>
+      <div class="news-card"><div class="nc-img">🥊</div><div class="nc-body"><div class="nc-sport" id="nc4s">🥊 BOXE</div><div class="nc-title" id="nc4t">Le Marocain Oumiha défie le champion WBA des légers à Paris</div><div class="nc-excerpt" id="nc4e">Le médaillé olympique affronte Gervonta Davis dans son plus grand test professionnel à ce jour.</div><div class="nc-footer"><span class="nc-author">Karim Benali</span><span class="nc-time" id="nc4ti">Il y a 3h</span></div></div></div>
+      <div class="news-card"><div class="nc-img">🏉</div><div class="nc-body"><div class="nc-sport" id="nc5s">🏉 RUGBY</div><div class="nc-title" id="nc5t">Le Kenya s'offre le Hong Kong Sevens pour la 2e année consécutive</div><div class="nc-excerpt" id="nc5e">Les Kényans battent les Fidjiens en prolongation dans une finale haletante à couper le souffle.</div><div class="nc-footer"><span class="nc-author">David Kamau</span><span class="nc-time" id="nc5ti">Il y a 4h</span></div></div></div>
+      <div class="news-card"><div class="nc-img">⚽</div><div class="nc-body"><div class="nc-sport" id="nc6s">⚽ FOOTBALL</div><div class="nc-title" id="nc6t">CAN 2025 : les villes hôtes officiellement confirmées au Maroc</div><div class="nc-excerpt" id="nc6e">Casablanca, Rabat, Marrakech et Agadir accueilleront la grande compétition à partir de janvier 2025.</div><div class="nc-footer"><span class="nc-author">Fatima Zahra</span><span class="nc-time" id="nc6ti">Il y a 5h</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: REELS ══ -->
+<div class="page-content" id="page-reels">
+  <div class="container">
+    <div class="sec-header"><div class="sec-title">🎬 <span id="lbl-reels">Reels · Moments Forts</span></div></div>
+    <div class="reels-grid">
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001840,#003087);"><div class="reel-thumb-bg">⚽</div><div class="play-btn"></div><div class="reel-badge badge-live">🔴 LIVE</div><div class="reel-views">2.4M vues</div></div><div class="reel-info"><div class="reel-title" id="r1">But incroyable de Ziyech contre le Sénégal à la 89e minute !</div><div class="reel-time" id="r1t">Il y a 20 min</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001030,#003087);"><div class="reel-thumb-bg">🏆</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">890K vues</div></div><div class="reel-info"><div class="reel-title" id="r2">Top 5 buts de la semaine africaine</div><div class="reel-time" id="r2t">Il y a 3h</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#0a2040,#0050c8);"><div class="reel-thumb-bg">🏃</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">1.1M vues</div></div><div class="reel-info"><div class="reel-title" id="r3">Kipchoge franchit la ligne : la dernière ligne droite historique</div><div class="reel-time" id="r3t">Il y a 1h</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001a4d,#002060);"><div class="reel-thumb-bg">🥊</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">3.2M vues</div></div><div class="reel-info"><div class="reel-title" id="r4">Le KO du siècle — Oumiha terrasse son adversaire au 3e round</div><div class="reel-time" id="r4t">Il y a 6h</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001840,#004080);"><div class="reel-thumb-bg">🏉</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">540K vues</div></div><div class="reel-info"><div class="reel-title" id="r5">L'essai décisif des Springboks en finale du Mondial de rugby</div><div class="reel-time" id="r5t">Il y a 8h</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001030,#002870);"><div class="reel-thumb-bg">🏀</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">710K vues</div></div><div class="reel-info"><div class="reel-title" id="r6">Le dunk de la décennie — Nigeria vs USA</div><div class="reel-time" id="r6t">Il y a 10h</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001840,#003060);"><div class="reel-thumb-bg">🎽</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">420K vues</div></div><div class="reel-info"><div class="reel-title" id="r7">La joie des supporters marocains après le but de la victoire</div><div class="reel-time" id="r7t">Il y a 25 min</div></div></div>
+      <div class="reel-card"><div class="reel-thumb" style="background:linear-gradient(135deg,#001030,#001a50);"><div class="reel-thumb-bg">🌍</div><div class="play-btn"></div><div class="reel-badge badge-reel">🎬 Reel</div><div class="reel-views">1.8M vues</div></div><div class="reel-info"><div class="reel-title" id="r8">Le meilleur de la CAN en 60 secondes</div><div class="reel-time" id="r8t">Il y a 2h</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: VIDEOS ══ -->
+<div class="page-content" id="page-videos">
+  <div class="container">
+    <div class="sec-header"><div class="sec-title">📺 <span id="lbl-videos">Vidéos d'Actualité Sportive</span></div></div>
+    <div class="videos-grid">
+      <div class="video-card"><div class="vc-thumb"><div class="vc-icon">⚽</div><div class="vplay-btn"></div><div class="vc-dur">12:34</div></div><div class="vc-body"><div class="vc-title" id="v1">Analyse complète : Maroc vs Sénégal — tactiques et statistiques détaillées</div><div class="vc-meta"><span class="vc-views">👁️ 45K vues</span><span>·</span><span>Il y a 1h</span></div></div></div>
+      <div class="video-card"><div class="vc-thumb" style="background:linear-gradient(135deg,#001030,#003087);"><div class="vc-icon">🎙️</div><div class="vplay-btn"></div><div class="vc-dur">8:21</div></div><div class="vc-body"><div class="vc-title" id="v2">Interview exclusive : Osimhen parle de son avenir et de l'équipe du Nigeria</div><div class="vc-meta"><span class="vc-views">👁️ 120K vues</span><span>·</span><span>Il y a 2h</span></div></div></div>
+      <div class="video-card"><div class="vc-thumb" style="background:linear-gradient(135deg,#0a2040,#0050c8);"><div class="vc-icon">🏆</div><div class="vplay-btn"></div><div class="vc-dur">5:48</div></div><div class="vc-body"><div class="vc-title" id="v3">Highlights : Al Ahly champion d'Afrique pour la 11e fois de son histoire</div><div class="vc-meta"><span class="vc-views">👁️ 78K vues</span><span>·</span><span>Il y a 3h</span></div></div></div>
+      <div class="video-card"><div class="vc-thumb" style="background:linear-gradient(135deg,#001a4d,#003087);"><div class="vc-icon">🎤</div><div class="vplay-btn"></div><div class="vc-dur">20:15</div></div><div class="vc-body"><div class="vc-title" id="v4">Grand débat : Qui est le meilleur joueur africain de l'année 2025 ?</div><div class="vc-meta"><span class="vc-views">👁️ 230K vues</span><span>·</span><span>Il y a 5h</span></div></div></div>
+      <div class="video-card"><div class="vc-thumb" style="background:linear-gradient(135deg,#001030,#002060);"><div class="vc-icon">🏃</div><div class="vplay-btn"></div><div class="vc-dur">3:55</div></div><div class="vc-body"><div class="vc-title" id="v5">Record du monde : Kipchoge entre dans l'histoire pour la 3e fois</div><div class="vc-meta"><span class="vc-views">👁️ 560K vues</span><span>·</span><span>Il y a 1h</span></div></div></div>
+      <div class="video-card"><div class="vc-thumb" style="background:linear-gradient(135deg,#0a2040,#003087);"><div class="vc-icon">🏉</div><div class="vplay-btn"></div><div class="vc-dur">15:02</div></div><div class="vc-body"><div class="vc-title" id="v6">Springboks : le titre le plus dominateur de l'histoire du rugby mondial</div><div class="vc-meta"><span class="vc-views">👁️ 95K vues</span><span>·</span><span>Il y a 4h</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: PUBLIER ══ -->
+<div class="page-content" id="page-upload">
+  <div class="container">
+    <div class="upload-section">
+      <h2 id="up-title">📤 Publiez Votre Contenu</h2>
+      <p id="up-sub">Partagez vos news, reels et vidéos sportives avec la communauté africaine</p>
+      <div class="upload-grid">
+        <div class="upload-box" onclick="showToast('📰 Section news sélectionnée !')"><div class="ub-icon">📰</div><div class="ub-title" id="ub1">Article / News</div><div class="ub-sub" id="ub1s">Partagez une actualité sportive</div></div>
+        <div class="upload-box" onclick="showToast('🎬 Section reels sélectionnée !')"><div class="ub-icon">🎬</div><div class="ub-title" id="ub2">Reel Vidéo</div><div class="ub-sub" id="ub2s">Court clip — max 60 secondes</div></div>
+        <div class="upload-box" onclick="showToast('📺 Section vidéo sélectionnée !')"><div class="ub-icon">📺</div><div class="ub-title" id="ub3">Vidéo Longue</div><div class="ub-sub" id="ub3s">Reportage, analyse, interview</div></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label id="fg1">Titre de la publication</label><input type="text" id="fg1-input" placeholder="Ex: Match du siècle — Maroc vs Nigéria"/></div>
+        <div class="form-group"><label id="fg2">Sport concerné</label><select id="fg2-input"><option>⚽ Football</option><option>🏃 Athlétisme</option><option>🏀 Basketball</option><option>🥊 Boxe</option><option>🏉 Rugby</option><option>🌍 Autre</option></select></div>
+        <div class="form-group"><label id="fg3">Pays / Région</label><input type="text" id="fg3-input" placeholder="Ex: Maroc, Nigeria, Afrique du Sud..."/></div>
+        <div class="form-group"><label id="fg4">Votre nom / Rédaction</label><input type="text" id="fg4-input" placeholder="Votre nom ou organisation"/></div>
+        <div class="form-group full"><label id="fg5">Description / Contenu</label><textarea id="fg5-input" placeholder="Décrivez votre actualité ou ajoutez le texte de votre article..."></textarea></div>
+      </div>
+      <button class="btn-submit" onclick="submitContent()" id="btn-pub">Publier maintenant 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: CONTACT ══ -->
+<div class="page-content" id="page-contact">
+  <div class="container">
+    <div class="sec-header"><div class="sec-title">✉️ <span id="lbl-contact">Contact & Rédaction</span></div></div>
+    <div class="contact-section">
+      <div class="contact-info">
+        <h3 id="ci-title">Contactez-nous</h3>
+        <div class="contact-item"><div class="ci-icon">📍</div><div><div class="ci-label" id="ci1l">Siège principal</div><div class="ci-val">Casablanca, Maroc 🇲🇦</div></div></div>
+        <div class="contact-item"><div class="ci-icon">📧</div><div><div class="ci-label" id="ci2l">Email rédaction</div><div class="ci-val">redaction@topafricanews.com</div></div></div>
+        <div class="contact-item"><div class="ci-icon">📱</div><div><div class="ci-label" id="ci3l">WhatsApp / Tel</div><div class="ci-val">+212 6 00 00 00 00</div></div></div>
+        <div class="contact-item"><div class="ci-icon">📺</div><div><div class="ci-label" id="ci4l">Partenariats & Publicité</div><div class="ci-val">partenaires@topafricanews.com</div></div></div>
+        <div class="contact-item"><div class="ci-icon">🌐</div><div><div class="ci-label" id="ci5l">Réseaux sociaux</div><div class="ci-val" style="display:flex;gap:10px;margin-top:4px;"><span style="cursor:pointer;font-size:20px;">📸</span><span style="cursor:pointer;font-size:20px;">📘</span><span style="cursor:pointer;font-size:20px;">🐦</span><span style="cursor:pointer;font-size:20px;">▶️</span></div></div></div>
+      </div>
+      <div class="contact-form">
+        <h3 id="cf-title">Envoyez un message</h3>
+        <div class="cf-group"><label id="cfl1">Nom complet</label><input type="text" id="cf1" placeholder="Votre nom"/></div>
+        <div class="cf-group"><label id="cfl2">Email</label><input type="email" id="cf2" placeholder="votre@email.com"/></div>
+        <div class="cf-group"><label id="cfl3">Sujet</label><select id="cf3"><option id="cfo1">Question générale</option><option id="cfo2">Partenariat</option><option id="cfo3">Signaler un contenu</option><option id="cfo4">Soumettre une news</option></select></div>
+        <div class="cf-group"><label id="cfl4">Message</label><textarea id="cf4" placeholder="Votre message..."></textarea></div>
+        <button class="btn-send" onclick="sendContact()" id="btn-send">Envoyer le message ✉️</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">🌍 Top Africa <span style="color:var(--gold)">News</span></div>
+      <p id="ft-desc">Votre source numéro 1 pour l'actualité sportive africaine. Football, athlétisme, rugby, boxe et bien plus. Disponible en français et en arabe.</p>
+    </div>
+    <div class="footer-col">
+      <h4 id="ft-h1">Sports</h4>
+      <a>⚽ Football</a><a>🏃 Athlétisme</a><a>🏀 Basketball</a><a>🥊 Boxe</a><a>🏉 Rugby</a>
+    </div>
+    <div class="footer-col">
+      <h4 id="ft-h2">Contenu</h4>
+      <a>📰 Actualités</a><a>🎬 Reels</a><a>📺 Vidéos</a><a>📤 Publier</a>
+    </div>
+    <div class="footer-col">
+      <h4 id="ft-h3">Infos</h4>
+      <a id="ft-about">À propos</a><a id="ft-contact">Contact</a><a id="ft-legal">Mentions légales</a><a id="ft-privacy">Confidentialité</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span id="ft-copy">© 2026 Top Africa News · Tous droits réservés</span>
+    <div class="social-links">
+      <div class="soc-btn">📸</div>
+      <div class="soc-btn">📘</div>
+      <div class="soc-btn">🐦</div>
+      <div class="soc-btn">▶️</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const T={
+  fr:{
+    dir:'ltr',lang:'fr',
+    'na-news':'Actualités','na-reels':'Reels','na-videos':'Vidéos','na-upload':'Publier','na-contact':'Contact',
+    'mt-news':'📰 Actualités','mt-reels':'🎬 Reels','mt-videos':'📺 Vidéos','mt-upload':'📤 Publier','mt-contact':'✉️ Contact',
+    'ticker-label':'EN DIRECT',
+    'tk1':'Maroc 2–1 Sénégal · Qualifications CAN 2025','tk2':'Osimhen finaliste prix CAF du meilleur joueur','tk3':'Kipchoge pulvérise le record du monde du marathon à Berlin','tk4':'Afrique du Sud conserve le titre mondial de rugby 32–12','tk5':'Oumiha challenge le champion WBA à Paris',
+    'sc1l':'CAN QUAL.','sc1t1':'Maroc','sc1t2':'Sénégal','sc1live':'EN DIRECT 74\'',
+    'sc2l':'LDC CAF','sc2t1':'Al Ahly','sc2t2':'Wydad',
+    'sc3l':'CAN QUAL.','sc3t1':'Ghana','sc3t2':'Côte d\'Ivoire',
+    'sc4l':'PREMIER LEAGUE','sc4t1':'Arsenal','sc4t2':'Chelsea',
+    'sc5l':'LIGUE DES NATIONS','sc5t1':'Nigeria','sc5t2':'Cameroun',
+    'hero-sub-txt':'QUALIFICATION CAN 2025','hero-tag':'⚽ CAN 2025',
+    'hero-title':'Le Maroc renverse le Sénégal dans une fin de match époustouflante et prend la tête du Groupe C',
+    'hero-meta-auth':'✍️ Youssef El Amrani','hero-meta-time':'Il y a 12 min',
+    'si1t':'ATHLÉTISME','si1':'Kipchoge pulvérise son record du monde du marathon à Berlin','si1m':'Il y a 1h',
+    'si2t':'FOOTBALL','si2':'Osimhen nommé finaliste du prix CAF du meilleur joueur africain','si2m':'Il y a 2h',
+    'si3t':'RUGBY','si3':'L\'Afrique du Sud conserve sa couronne mondiale 32–12','si3m':'Il y a 4h',
+    'si4t':'BOXE','si4':'Kamaru Usman annonce son retour à l\'UFC à Lagos','si4m':'Il y a 5h',
+    'lbl-latest':'Dernières Actualités','lbl-more':'Voir tout →',
+    'nc1s':'⚽ FOOTBALL','nc1t':'Al Ahly remporte la LDC africaine avec une victoire 3–0 écrasante sur Wydad','nc1e':'Le club égyptien réalise une masterclass au Caire et décroche son 11e titre continental avec brio.','nc1ti':'Il y a 30 min',
+    'nc2s':'🏃 ATHLÉTISME','nc2t':'Faith Kipyegon bat le record du monde du 1500m à Nairobi','nc2e':'La championne kényane chronomètre 3:49.04 devant un public en délire pour améliorer sa propre marque.','nc2ti':'Il y a 1h',
+    'nc3s':'🏀 BASKET','nc3t':'Le Nigeria crée l\'exploit face aux USA aux qualifications olympiques','nc3e':'Giannis mène le Nigeria à une victoire historique qui choque le monde entier du basketball.','nc3ti':'Il y a 2h',
+    'nc4s':'🥊 BOXE','nc4t':'Le Marocain Oumiha défie le champion WBA des légers à Paris','nc4e':'Le médaillé olympique affronte Gervonta Davis dans son plus grand test professionnel à ce jour.','nc4ti':'Il y a 3h',
+    'nc5s':'🏉 RUGBY','nc5t':'Le Kenya s\'offre le Hong Kong Sevens pour la 2e année consécutive','nc5e':'Les Kényans battent les Fidjiens en prolongation dans une finale haletante à couper le souffle.','nc5ti':'Il y a 4h',
+    'nc6s':'⚽ FOOTBALL','nc6t':'CAN 2025 : les villes hôtes officiellement confirmées au Maroc','nc6e':'Casablanca, Rabat, Marrakech et Agadir accueilleront la grande compétition à partir de janvier 2025.','nc6ti':'Il y a 5h',
+    'lbl-reels':'Reels · Moments Forts',
+    'r1':'But incroyable de Ziyech contre le Sénégal à la 89e minute !','r1t':'Il y a 20 min',
+    'r2':'Top 5 buts de la semaine africaine','r2t':'Il y a 3h',
+    'r3':'Kipchoge franchit la ligne : la dernière ligne droite historique','r3t':'Il y a 1h',
+    'r4':'Le KO du siècle — Oumiha terrasse son adversaire au 3e round','r4t':'Il y a 6h',
+    'r5':'L\'essai décisif des Springboks en finale du Mondial de rugby','r5t':'Il y a 8h',
+    'r6':'Le dunk de la décennie — Nigeria vs USA','r6t':'Il y a 10h',
+    'r7':'La joie des supporters marocains après le but de la victoire','r7t':'Il y a 25 min',
+    'r8':'Le meilleur de la CAN en 60 secondes','r8t':'Il y a 2h',
+    'lbl-videos':'Vidéos d\'Actualité Sportive',
+    'v1':'Analyse complète : Maroc vs Sénégal — tactiques et statistiques détaillées',
+    'v2':'Interview exclusive : Osimhen parle de son avenir et de l\'équipe du Nigeria',
+    'v3':'Highlights : Al Ahly champion d\'Afrique pour la 11e fois de son histoire',
+    'v4':'Grand débat : Qui est le meilleur joueur africain de l\'année 2025 ?',
+    'v5':'Record du monde : Kipchoge entre dans l\'histoire pour la 3e fois',
+    'v6':'Springboks : le titre le plus dominateur de l\'histoire du rugby mondial',
+    'up-title':'📤 Publiez Votre Contenu','up-sub':'Partagez vos news, reels et vidéos sportives avec la communauté africaine',
+    'ub1':'Article / News','ub1s':'Partagez une actualité sportive',
+    'ub2':'Reel Vidéo','ub2s':'Court clip — max 60 secondes',
+    'ub3':'Vidéo Longue','ub3s':'Reportage, analyse, interview',
+    'fg1':'Titre de la publication','fg2':'Sport concerné','fg3':'Pays / Région','fg4':'Votre nom / Rédaction','fg5':'Description / Contenu',
+    'btn-pub':'Publier maintenant 🚀',
+    'lbl-contact':'Contact & Rédaction','ci-title':'Contactez-nous',
+    'ci1l':'Siège principal','ci2l':'Email rédaction','ci3l':'WhatsApp / Tel','ci4l':'Partenariats & Publicité','ci5l':'Réseaux sociaux',
+    'cf-title':'Envoyez un message','cfl1':'Nom complet','cfl2':'Email','cfl3':'Sujet','cfl4':'Message',
+    'cfo1':'Question générale','cfo2':'Partenariat','cfo3':'Signaler un contenu','cfo4':'Soumettre une news',
+    'btn-send':'Envoyer le message ✉️',
+    'ft-desc':'Votre source numéro 1 pour l\'actualité sportive africaine. Football, athlétisme, rugby, boxe et bien plus.',
+    'ft-h1':'Sports','ft-h2':'Contenu','ft-h3':'Infos','ft-about':'À propos','ft-contact':'Contact','ft-legal':'Mentions légales','ft-privacy':'Confidentialité',
+    'ft-copy':'© 2026 Top Africa News · Tous droits réservés',
+    'modal-sub':'Rejoignez la communauté sportive africaine',
+    'tab-login':'Connexion','tab-reg':'Inscription','lbl-email':'Email','lbl-pass':'Mot de passe','btn-login-lbl':'Se connecter',
+    'divider-or':'ou continuer avec','lbl-name':'Nom complet','lbl-email2':'Email','lbl-pass2':'Mot de passe','btn-reg-lbl':'Créer mon compte','divider-or2':'ou continuer avec',
+    'btn-auth':'Connexion','search-input':'Rechercher...',
+    'toast-pub':'✅ Contenu publié avec succès !','toast-send':'✅ Message envoyé avec succès !'
+  },
+  ar:{
+    dir:'rtl',lang:'ar',
+    'na-news':'أخبار','na-reels':'ريلز','na-videos':'فيديوهات','na-upload':'نشر','na-contact':'اتصل بنا',
+    'mt-news':'📰 أخبار','mt-reels':'🎬 ريلز','mt-videos':'📺 فيديوهات','mt-upload':'📤 نشر','mt-contact':'✉️ اتصل بنا',
+    'ticker-label':'مباشر',
+    'tk1':'المغرب 2–1 السنغال · تصفيات كأس أمم أفريقيا 2025','tk2':'أوسيمهن في قائمة جائزة أفضل لاعب أفريقي','tk3':'كيبتشوجي يحطم رقمه القياسي العالمي في الماراثون','tk4':'جنوب أفريقيا تحتفظ باللقب العالمي للرغبي 32–12','tk5':'أوميها يتحدى بطل العالم WBA في باريس',
+    'sc1l':'تصفيات أمم أفريقيا','sc1t1':'المغرب','sc1t2':'السنغال','sc1live':'مباشر 74\'',
+    'sc2l':'دوري أبطال أفريقيا','sc2t1':'الأهلي','sc2t2':'الوداد',
+    'sc3l':'تصفيات أمم أفريقيا','sc3t1':'غانا','sc3t2':'كوت ديفوار',
+    'sc4l':'الدوري الإنجليزي','sc4t1':'آرسنال','sc4t2':'تشيلسي',
+    'sc5l':'دوري الأمم','sc5t1':'نيجيريا','sc5t2':'الكاميرون',
+    'hero-sub-txt':'تصفيات أمم أفريقيا 2025','hero-tag':'⚽ أمم أفريقيا 2025',
+    'hero-title':'المغرب يُسقط السنغال في نهاية درامية ويتصدر المجموعة الثالثة بجدارة',
+    'hero-meta-auth':'✍️ يوسف العمراني','hero-meta-time':'منذ 12 دقيقة',
+    'si1t':'ألعاب القوى','si1':'كيبتشوجي يحطم رقمه القياسي العالمي في الماراثون من جديد','si1m':'منذ ساعة',
+    'si2t':'كرة القدم','si2':'أوسيمهن ضمن المرشحين لجائزة أفضل لاعب أفريقي','si2m':'منذ ساعتين',
+    'si3t':'الرغبي','si3':'جنوب أفريقيا تحتفظ باللقب العالمي 32–12','si3m':'منذ 4 ساعات',
+    'si4t':'الملاكمة','si4':'كمارو عثمان يعلن عودته إلى UFC في نيجيريا','si4m':'منذ 5 ساعات',
+    'lbl-latest':'آخر الأخبار','lbl-more':'عرض الكل ←',
+    'nc1s':'⚽ كرة القدم','nc1t':'الأهلي يتوج بدوري أبطال أفريقيا بفوز ساحق 3–0 على الوداد','nc1e':'قدّم الفريق المصري عرضاً مبهراً في القاهرة وحصد لقبه القاري الحادي عشر بجدارة.','nc1ti':'منذ 30 د',
+    'nc2s':'🏃 ألعاب القوى','nc2t':'فيث كيبيغون تحطم الرقم القياسي لـ 1500م في نيروبي','nc2e':'النجمة الكينية سجلت 3:49.04 لتحسّن رقمها القياسي أمام جمهورها في أرضها.','nc2ti':'منذ ساعة',
+    'nc3s':'🏀 كرة السلة','nc3t':'نيجيريا تُفاجئ الولايات المتحدة في تصفيات الأولمبياد','nc3e':'يانيس يقود نيجيريا إلى فوز تاريخي يُصدم العالم بأسره في كرة السلة.','nc3ti':'منذ ساعتين',
+    'nc4s':'🥊 ملاكمة','nc4t':'المغربي أوميها يواجه بطل العالم WBA للوزن الخفيف في باريس','nc4e':'الميدالي الأولمبي الفضي يخوض أصعب اختباراته الاحترافية في مواجهة ديفيس.','nc4ti':'منذ 3 ساعات',
+    'nc5s':'🏉 رغبي','nc5t':'كينيا تحرز لقب سباعيات هونغ كونغ للمرة الثانية توالياً','nc5e':'تغلّب الفريق الكيني على فيجي في الوقت الإضافي ليُتوّج بأرفع جوائز رغبي السباعيات.','nc5ti':'منذ 4 ساعات',
+    'nc6s':'⚽ كرة القدم','nc6t':'تأكيد مدن كأس أمم أفريقيا 2025 — المغرب يستقبل القارة','nc6e':'ستة ملاعب في الدار البيضاء والرباط ومراكش وأغادير ستحتضن البطولة منذ يناير 2025.','nc6ti':'منذ 5 ساعات',
+    'lbl-reels':'ريلز · أبرز اللحظات',
+    'r1':'هدف زياش الخرافي في الدقيقة 89 ضد السنغال!','r1t':'منذ 20 دقيقة',
+    'r2':'أفضل 5 أهداف في الأسبوع الأفريقي','r2t':'منذ 3 ساعات',
+    'r3':'كيبتشوجي يعبر خط النهاية في لحظة تاريخية','r3t':'منذ ساعة',
+    'r4':'الضربة القاضية — أوميها يسقط منافسه في الجولة الثالثة','r4t':'منذ 6 ساعات',
+    'r5':'المحاولة الحاسمة لسبرينغبوكس في نهائي كأس العالم','r5t':'منذ 8 ساعات',
+    'r6':'تسديدة العقد — نيجيريا ضد الولايات المتحدة','r6t':'منذ 10 ساعات',
+    'r7':'فرحة مشجعي المغرب بعد هدف الفوز','r7t':'منذ 25 دقيقة',
+    'r8':'أبرز ما في كأس أمم أفريقيا في 60 ثانية','r8t':'منذ ساعتين',
+    'lbl-videos':'فيديوهات الأخبار الرياضية',
+    'v1':'تحليل شامل: المغرب ضد السنغال — التكتيكات والإحصاءات التفصيلية',
+    'v2':'مقابلة حصرية: أوسيمهن يتحدث عن مستقبله ومسيرته مع نيجيريا',
+    'v3':'ملخص: الأهلي بطل أفريقيا للمرة الحادية عشرة في تاريخه',
+    'v4':'نقاش كبير: من هو أفضل لاعب أفريقي لعام 2025؟',
+    'v5':'الرقم القياسي العالمي: كيبتشوجي يصنع التاريخ للمرة الثالثة',
+    'v6':'سبرينغبوكس: أكثر بطولة مهيمنة في تاريخ الرغبي العالمي',
+    'up-title':'📤 انشر محتواك','up-sub':'شارك أخبارك وريلزك وفيديوهاتك الرياضية مع المجتمع الأفريقي',
+    'ub1':'مقال / خبر','ub1s':'شارك خبراً رياضياً',
+    'ub2':'ريل فيديو','ub2s':'مقطع قصير — 60 ثانية كحد أقصى',
+    'ub3':'فيديو طويل','ub3s':'تقرير، تحليل، مقابلة',
+    'fg1':'عنوان المنشور','fg2':'الرياضة','fg3':'البلد / المنطقة','fg4':'اسمك / اسم مؤسستك','fg5':'الوصف / المحتوى',
+    'btn-pub':'نشر الآن 🚀',
+    'lbl-contact':'اتصل بنا والتحرير','ci-title':'تواصل معنا',
+    'ci1l':'المقر الرئيسي','ci2l':'بريد التحرير','ci3l':'واتساب / هاتف','ci4l':'شراكات وإعلانات','ci5l':'وسائل التواصل',
+    'cf-title':'أرسل رسالة','cfl1':'الاسم الكامل','cfl2':'البريد الإلكتروني','cfl3':'الموضوع','cfl4':'الرسالة',
+    'cfo1':'سؤال عام','cfo2':'شراكة','cfo3':'الإبلاغ عن محتوى','cfo4':'إرسال خبر',
+    'btn-send':'إرسال الرسالة ✉️',
+    'ft-desc':'وجهتك الأولى للأخبار الرياضية الأفريقية. كرة القدم، ألعاب القوى، الرغبي، الملاكمة والمزيد.',
+    'ft-h1':'الرياضات','ft-h2':'المحتوى','ft-h3':'معلومات','ft-about':'من نحن','ft-contact':'اتصل بنا','ft-legal':'الشروط القانونية','ft-privacy':'الخصوصية',
+    'ft-copy':'© 2026 توب أفريكا نيوز · جميع الحقوق محفوظة',
+    'modal-sub':'انضم إلى مجتمع الرياضة الأفريقية',
+    'tab-login':'تسجيل الدخول','tab-reg':'إنشاء حساب','lbl-email':'البريد الإلكتروني','lbl-pass':'كلمة المرور','btn-login-lbl':'تسجيل الدخول',
+    'divider-or':'أو تابع بـ','lbl-name':'الاسم الكامل','lbl-email2':'البريد الإلكتروني','lbl-pass2':'كلمة المرور','btn-reg-lbl':'إنشاء الحساب','divider-or2':'أو تابع بـ',
+    'btn-auth':'دخول','search-input':'بحث...',
+    'toast-pub':'✅ تم نشر المحتوى بنجاح!','toast-send':'✅ تم إرسال رسالتك بنجاح!'
+  }
+};
+
+let lang='fr';
+
+function setLang(l){
+  lang=l;
+  const d=T[l];
+  document.documentElement.lang=l;
+  document.body.classList.toggle('rtl',d.dir==='rtl');
+  document.body.classList.toggle('ltr',d.dir==='ltr');
+  Object.keys(d).forEach(k=>{
+    if(k==='dir'||k==='lang'||k.startsWith('toast')) return;
+    const el=document.getElementById(k);
+    if(el){
+      if(el.tagName==='INPUT') el.placeholder=d[k];
+      else el.textContent=d[k];
+    }
+  });
+  const tks=['tk1','tk2','tk3','tk4','tk5'];
+  tks.forEach(k=>{
+    const el2=document.getElementById(k+'b');
+    if(el2) el2.textContent=d[k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('active',(l==='fr'&&b.textContent==='FR')||(l==='ar'&&b.textContent==='عر'));
+  });
+}
+
+function showPage(id,el){
+  document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.mtab,.nav-center a').forEach(t=>t.classList.remove('active'));
+  const mt=document.getElementById('mt-'+id);
+  if(mt) mt.classList.add('active');
+  const na=document.getElementById('na-'+id);
+  if(na) na.classList.add('active');
+}
+
+function openModal(){document.getElementById('authModal').classList.add('open');}
+function closeModal(){document.getElementById('authModal').classList.remove('open');}
+
+function switchAuth(type){
+  document.getElementById('form-login').classList.toggle('active',type==='login');
+  document.getElementById('form-register').classList.toggle('active',type==='register');
+  document.getElementById('tab-login').classList.toggle('active',type==='login');
+  document.getElementById('tab-reg').classList.toggle('active',type==='register');
+}
+
+function doLogin(){closeModal();showToast(lang==='ar'?'✅ تم تسجيل الدخول بنجاح!':'✅ Connexion réussie !');}
+function doRegister(){closeModal();showToast(lang==='ar'?'✅ تم إنشاء حسابك بنجاح!':'✅ Compte créé avec succès !');}
+
+function submitContent(){
+  const t=T[lang]['toast-pub']||'✅ Publié !';
+  showToast(t);
+}
+function sendContact(){
+  const t=T[lang]['toast-send']||'✅ Envoyé !';
+  showToast(t);
+}
+
+function showToast(msg){
+  const toast=document.getElementById('toast');
+  toast.textContent=msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),3500);
+}
+
+document.getElementById('authModal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+</script>
+</body>
+</html>
